@@ -9,5 +9,7 @@ The code in `parPSOmaster.py` is to be loaded onto the master node and the one i
 ## Running Instructions
 
 Execute the following command on the terminal of the master node:
+
 `mpiexec -f machinefile -n 3 python Documents/parPSO.py`
+
 The above command is for running the parallelized PSO on 3 nodes (1 master, 2 slaves).
