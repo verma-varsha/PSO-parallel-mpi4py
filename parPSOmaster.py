@@ -53,7 +53,13 @@ class PSO():
 		for i in range(0, num_particles):
 			swarm.append(Particle(x0))
 
+		
 		for i in range(num_iter):
+
+
+			#######################################################################
+			#      PARALLEL COST FUNCTION EVALUATION FOR POPULATION BEGINS        #
+			#######################################################################
 
 			evalQueue = deque(range(num_particles))
 
@@ -91,12 +97,19 @@ class PSO():
 				if idle==size-1:
 					break
 
+			#######################################################################
+			#      PARALLEL COST FUNCTION EVALUATION FOR POPULATION ENDS        #
+			#######################################################################
 
 			for j in range(0, num_particles):
 				swarm[j].update_velocity(best_pos_g)
 				swarm[j].update_position(bounds)
 
-		comm.send(0, dest=src_rank, tag=200)
+		# Sending done signal to all slave nodes
+		for k in range(1,size):
+			comm.send(0, dest=k, tag=200)	
+
+		# Printing the final results to the console
 		print 'Best position : '
 		print best_pos_g
 		print 'Best cost : '
